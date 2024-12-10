@@ -7,7 +7,12 @@ export class MqttSubscriberService {
   constructor(
     @Inject(connectionMQTT.clientID)
     private client: ClientProxy,
-  ) {
-    this.client.send('ddr-nestjs/test', 'Test Message').subscribe();
+  ) {}
+
+  publishTopic(topic: string, data: any) {
+    // this.client.send(topic, data).subscribe();
+    this.client.send(topic, data).subscribe();
+    console.log(topic, data);
+    return true;
   }
 }

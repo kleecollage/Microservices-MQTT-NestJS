@@ -1,4 +1,11 @@
 import { Injectable } from '@nestjs/common';
+import { MqttSubscriberService } from 'src/modules/mqtt-subscriber/mqtt-subscriber.service';
 
 @Injectable()
-export class MqttPublisherService {}
+export class MqttPublisherService {
+  constructor(private mqttSubscriberService: MqttSubscriberService) {}
+
+  publishTopic(topic: string, data: any) {
+    return this.mqttSubscriberService.publishTopic(topic, data);
+  }
+}
