@@ -6,8 +6,8 @@ import { MqttSubscriberService } from './mqtt-subscriber.service';
 
 export class MessageSerializer implements Serializer {
   serialize(value: any, options?: Record<string, any>) {
-    console.log(options);
     return value.data;
+    console.log(options);
   }
 }
 

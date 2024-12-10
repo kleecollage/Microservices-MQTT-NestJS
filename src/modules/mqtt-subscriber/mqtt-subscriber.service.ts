@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { ClientProxy } from '@nestjs/microservices';
+import { ClientProxy, MqttContext } from '@nestjs/microservices';
 import { connectionMQTT } from 'src/constants/constants';
 
 @Injectable()
@@ -9,10 +9,19 @@ export class MqttSubscriberService {
     private client: ClientProxy,
   ) {}
 
-  publishTopic(topic: string, data: any) {
-    // this.client.send(topic, data).subscribe();
-    this.client.send(topic, data).subscribe();
-    console.log(topic, data);
-    return true;
+  async publishTopic(topic: string, data: any) {
+    try {
+      await this.client.connect();
+      this.client.send(topic, data).subscribe();
+      return true;
+    } catch (error) {
+      console.error('No connection. ', error);
+      return false;
+    }
+  }
+
+  getData(context: MqttContext, payload: any) {
+    console.log('Topic: ', context.getTopic());
+    console.log('Data: ', payload);
   }
 }
